@@ -1,7 +1,6 @@
 import {findPage, deleteById, batchDelete, addEntity, findById,updataEdit} from '@/api/brand'
 import dateOptions from "@/utils/date";
 import base64 from '@/utils/base64Utils'
-// import {updataEntity} from "../../api/brand";
 
 let brand = {
     name: "index",
@@ -15,7 +14,6 @@ let brand = {
                 currentPage: 1,
                 pageSize: 5
             },
-
 
             // 批量删除定义的数组
             batchIds: [],
@@ -71,7 +69,6 @@ let brand = {
             } else {
                 // 没id进行添加操作
              await  this.addEntity()
-
             }
             this.searchPage();
 
@@ -91,6 +88,7 @@ let brand = {
          */
        async updataEdit(){
             await updataEdit(this.formData);
+            this.isEnable
         },
 
 

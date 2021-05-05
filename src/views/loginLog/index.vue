@@ -6,7 +6,7 @@
     <div class="search-form">
       <el-form :inline="true" class="demo-form-inline" size="mini">
         <el-form-item label="品牌名称">
-          <el-input placeholder="请输入品牌名称" v-model="searchParams.brandName"></el-input>
+          <el-input placeholder="请输入品牌名称" v-model="searchParams.adminName"></el-input>
         </el-form-item>
 
         <el-form-item label="开始时间">
@@ -35,12 +35,9 @@
 
     <!--    操作功能 -->
     <div class="crud-box">
-      <el-button type="primary" v-has-prem="['brand:add']" size="mini" icon="el-icon-edit" @click="dialogVisible=true,formData={},imageUrl=''">新建
-      </el-button>
-      <el-button type="success" v-has-prem="['brand:edit']" size="mini" icon="el-icon-edit" :disabled="batchIds.length!=1"
-                 @click="dialogVisible=true,findById()">修改
-      </el-button>
-      <el-button type="danger" v-has-prem="['brand:batch']" size="mini" icon="el-icon-delete" :disabled="batchIds.length<=0"
+
+      <el-button type="danger" v-has-prem="['loginLog:batch']" size="mini" icon="el-icon-delete"
+                 :disabled="batchIds.length<=0"
                  @click="showBatchDeleteDialog">批量删除
       </el-button>
     </div>
@@ -58,41 +55,51 @@
         </el-table-column>
         <el-table-column
             align="center"
-            prop="brandName"
-            label="品牌名称"
+            prop="adminName"
+            label="用户名称"
             width="180">
         </el-table-column>
         <el-table-column
             align="center"
-            prop="brandDesc"
-            label="品牌描述"
+            prop="requestIp"
+            label="ip地址"
             width="180">
         </el-table-column>
         <el-table-column
             align="center"
-            prop="brandSite"
-            label="品牌站点">
-          <template v-slot="huige">
-            <a :href="huige.row.brandSite">{{ huige.row.brandSite }}</a>
-          </template>
-
+            prop="loginAddress"
+            label="登录地址">
         </el-table-column>
         <el-table-column
             align="center"
-            prop="brandLogo"
-            label="品牌图标">
-          <template v-slot="obj">
-            <img :src="obj.row.brandLogo" alt="" height="30px">
-          </template>
+            prop="broswerName"
+            label="登录机型">
+        </el-table-column>
+        <el-table-column
+            align="center"
+            prop="osName"
+            label="登录系统">
+        </el-table-column>
+        <el-table-column
+            align="center"
+            prop="loginStatus"
+            label="登录状态">
+        </el-table-column>
+        <el-table-column
+            align="center"
+            prop="message"
+            label="提示信息">
+        </el-table-column>
+        <el-table-column
+            align="center"
+            prop="loginTime"
+            label="登录时间">
         </el-table-column>
 
         <el-table-column
             align="center"
             label="操作">
           <template v-slot="obj">
-            <el-button type="primary" v-has-prem="['brand:edit']" size="mini" icon="el-icon-edit"
-                       @click="dialogVisible=true,formData.id=obj.row.id,findById()" style="margin-right:5px">
-            </el-button>
             <el-popconfirm
                 confirm-button-text='确定'
                 cancel-button-text='取消'
@@ -100,7 +107,7 @@
                 icon-color="red"
                 @confirm="deleteById"
                 placement="top"
-                v-has-prem="['brand:delete']"
+                v-has-prem="['loginLog:delete']"
                 title="是否要删除本条记录？"
             >
               <el-button slot="reference" type="danger" size="mini" @click="formData.id=obj.row.id"
@@ -127,42 +134,6 @@
     </div>
 
 
-    <!--    弹框-->
-    <el-dialog
-        title="实体操作"
-        :visible.sync="dialogVisible"
-        width="33%"
-    >
-      <el-form ref="form" label-width="80px" size="small">
-        <el-form-item label="品牌名称">
-          <el-input v-model="formData.brandName"></el-input>
-        </el-form-item>
-        <el-form-item label="品牌站点">
-          <el-input v-model="formData.brandSite"></el-input>
-        </el-form-item>
-        <el-form-item label="品牌图片">
-          <el-upload
-              class="avatar-uploader"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              :show-file-list="false"
-              :http-request="getImgStr">
-            <img v-if="imageUrl" :src="imageUrl" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-
-        </el-form-item>
-        <el-form-item label="品牌描述">
-          <el-input v-model="formData.brandDesc"></el-input>
-        </el-form-item>
-
-      </el-form>
-
-
-      <span slot="footer" class="dialog-footer">
-        <el-button size="mini" @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" @click="dialogVisible = false,addOrEdit()">确 定</el-button>
-  </span>
-    </el-dialog>
   </div>
 </template>
 

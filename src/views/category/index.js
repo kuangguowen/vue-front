@@ -1,5 +1,5 @@
-import {findPage, deleteById, batchDelete, addEntity, findById, updataEdit, getSelectData} from '@/api/category'
-import dateOptions from "@/utils/date";
+import {findPage, deleteById, addEntity, findById, updataEdit, getSelectData} from '../../api/category'
+import dateOptions from "../../utils/date";
 
 let brand = {
     name: "index",
@@ -8,19 +8,22 @@ let brand = {
             dateOptions,
             tableData: [],
             //分页
+            total: 0,
             searchParams: {
                 currentPage: 1,
-                pageSize: 5
+                pageSize: 3
             },
+
             // 双向绑定的数据
             categoryLevel: 1,
-
             // 批量删除定义的数组
             batchIds: [],
             // 添加修改框 默认false 不弹出
             dialogVisible: false,
             // 表单数据对象
-            formData: {},
+            formData: {
+
+            },
             radio: '',
             // 指定和 label 绑定的值
             prop: {
@@ -37,13 +40,16 @@ let brand = {
     },
     created() {
         this.searchPage();
+
     },
     methods: {
         /*
         * 查询所有
         */
         async searchPage() {
-            this.tableData = await findPage(this.searchParams);
+            let response = await findPage(this.searchParams);
+            this.tableData = response.data;
+            this.total = response.total;
         },
 
 
@@ -124,6 +130,12 @@ let brand = {
             await updataEdit(this.formData);
         },
 
+        /**
+         * 获取所有的菜单
+         */
+
+
+
 
         /**checkbox勾选改变
          * @param val
@@ -153,6 +165,12 @@ let brand = {
 
         },
 
+        //选择页数的时候 发生改变
+        currentPageChange(page) {
+            this.searchParams.currentPage = page;
+            this.searchPage();
+        },
+
 
         //时间框选择时间
         chooseTime() {
@@ -162,20 +180,6 @@ let brand = {
         resetForm() {
             this.searchParams = {currentPage: 1, pageSize: 5}
             this.dateOptions.startDate = '';
-        },
-
-        /**
-         * 展示批量删除的弹框
-         */
-        showBatchDeleteDialog() {
-            this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                //点击按钮后执行方法
-                this.batchDeleteByIds();
-            })
         },
 
 

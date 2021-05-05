@@ -1,50 +1,3 @@
-// /**
-//  * 封装axios
-//  */
-//
-// import axios from "axios";
-//
-// //引入 element-ui 的 Notification
-// import {Notification} from 'element-ui'
-//
-//
-// //创建axios
-// const instance = axios.create({
-//     baseURL: 'http://localhost:8989/',
-//     timeout: 3000,
-// });
-//
-//
-//
-// instance.interceptors.request.use(function (config) {
-//
-//     return config;
-// }, function (error) {
-//
-//
-//     return Promise.reject(error);
-// });
-//
-//
-// axios.interceptors.response.use(function (response) {
-//
-//     let {status, message, data} = response.data;
-//
-//     if (status==20000){
-//         return data;
-//     } else {
-//         Notification.error(message);
-//
-//         return Promise.reject(false);
-//
-//     }
-// }, function (error) {
-//
-//     return Promise.reject(error);
-// });
-//
-// export  default instance;
-
 /*
 * 封装axios
 * */
@@ -52,20 +5,25 @@ import axios from "axios";
 
 //引入elementUI中的Notification
 import {Notification} from 'element-ui'
-
+import auth from "./auth";
 //创建axios
 /*
 * instance对象 就是我们之前在项目中使用 axios
 *
 * */
+import baseURL from "./baseURL";
+
 const instance = axios.create({
-    baseURL: 'http://localhost:8989/',
+    baseURL: baseURL.baseURL,
     timeout: 30000,
 });
 
 
 // Add a request interceptor
 instance.interceptors.request.use(function (config) {
+
+    config.headers.Authorization = "Bearer " + auth.getToken()
+
     return config;
 }, function (error) {
     // Do something with request error
@@ -73,13 +31,14 @@ instance.interceptors.request.use(function (config) {
 });
 
 instance.interceptors.response.use(function (response) {
-    let {status, message, data} = response.data;
-    if (status == 20000) {
+    let {status, massage, data} = response.data;
+    if (status === 20000) {
         return data;
     } else {
-        Notification.error(message)
+        Notification.error(massage)
         return Promise.reject(false);
     }
+
 }, function (error) {
 
     return Promise.reject(error);

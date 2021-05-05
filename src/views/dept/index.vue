@@ -3,15 +3,14 @@
         <!--      查询表单 -->
         <div class="search-form">
             <el-form :inline="true" class="demo-form-inline" size="mini">
-                <el-form-item label="分类名称">
-                    <el-input placeholder="请输入分类名称" v-model="searchParams.catetoryName"></el-input>
+                <el-form-item label="部门名称">
+                    <el-input placeholder="请输入部门名称" v-model="searchParams.deptName"></el-input>
                 </el-form-item>
 
                 <el-form-item label="开始时间">
                     <el-date-picker
                             style="width: 240px"
                             type="datetimerange"
-
                             :picker-options="dateOptions.pickerOptions"
                             v-model="dateOptions.startDate"
                             value-format="yyyy-MM-dd HH:mm:ss"
@@ -31,11 +30,10 @@
         </div>
         <!--    操作功能 -->
         <div class="crud-box">
-            <el-button type="primary" size="mini" v-has-prem="['category:add']" icon="el-icon-edit"
-                       @click="dialogVisible=true,formData={},imageUrl='',categoryLevel=1">新建
-            </el-button>
-            <el-button type="success" size="mini" v-has-prem="['category:edit']" icon="el-icon-edit" :disabled="batchIds.length!=1"
-                       @click="dialogVisible=true,findById()">修改
+            <el-button type="primary" v-has-prem="['dept:add']" size="mini" icon="el-icon-edit" @click="dialogVisible=true,formData={},imageUrl=''">新建</el-button>
+            <el-button type="success" v-has-prem="['dept:edit']" size="mini" icon="el-icon-edit" :disabled="batchIds.length!=1" @click="dialogVisible=true,findById()">修改</el-button>
+            <el-button type="danger" v-has-prem="['dept:batch']" size="mini" icon="el-icon-delete" :disabled="batchIds.length<=0"
+                       @click="showBatchDeleteDialog">批量删除
             </el-button>
         </div>
         <!--    表格数据-->
@@ -43,38 +41,43 @@
             <el-table
                     :data="tableData"
                     style="width: 100%"
-                    row-key="id"
-                    :tree-props="{children: 'children'}"
                     @selection-change="selectChange">
                 <el-table-column
                         align="center"
-                        prop="catetoryName"
-                        label="分类名称"
+                        type="selection"
+                        width="55">
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="deptName"
+                        label="部门名称"
                         width="180">
                 </el-table-column>
                 <el-table-column
                         align="center"
-                        prop="categoryLevel"
-                        label="分类等级"
+                        prop="parentIdc"
+                        label="上级id"
                         width="180">
-                    <template v-slot="obj">
-                        <el-tag v-if="obj.row.categoryLevel==1" type="success">一级分类</el-tag>
-                        <el-tag v-if="obj.row.categoryLevel==2" type="warning">二级分类</el-tag>
-                        <el-tag v-if="obj.row.categoryLevel==3">三级分类</el-tag>
-                    </template>
-
                 </el-table-column>
-
+                <el-table-column
+                        align="center"
+                        prop="deptSort"
+                        label="部门排序">
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        prop="deptDesc"
+                        label="部门描述">
+                </el-table-column>
                 <el-table-column
                         align="center"
                         label="操作">
                     <template v-slot="obj">
-                        <el-button type="primary" v-has-prem="['category:edit']" size="mini" icon="el-icon-edit"
-                                   @click="dialogVisible=true,formData.id=obj.row.id,findById()"
-                                   style="margin-right:5px ">
+                        <el-button type="primary" v-has-prem="['dept:edit']" size="mini" icon="el-icon-edit"
+                                   @click="dialogVisible=true,formData.id=obj.row.id,findById()" style="margin-right:5px ">
                         </el-button>
                         <el-popconfirm
-                            v-has-prem="['category:delete']"
+                            v-has-prem="['dept:delete']"
                                 confirm-button-text='确定'
                                 cancel-button-text='取消'
                                 icon="el-icon-info"
@@ -93,20 +96,20 @@
             </el-table>
 
         </div>
+        <!--    分页-->
+        <div class="page-box">
+            <el-pagination
+                    background
+                    layout="prev, pager, next"
+                    :total="total"
+                    :page-size="searchParams.pageSize"
+                    :current-page="searchParams.currentPage"
+                    @current-change="currentPageChange"
+            >
+            </el-pagination>
 
-<!--      分页-->
-      <div class="page-box">
-        <el-pagination
-            background
-            layout="prev, pager, next"
-            :total="total"
-            :page-size="searchParams.pageSize"
-            :current-page="searchParams.currentPage"
-            @current-change="currentPageChange"
-        >
-        </el-pagination>
+        </div>
 
-      </div>
 
         <!--    弹框-->
         <el-dialog
@@ -115,31 +118,18 @@
                 width="33%"
         >
             <el-form ref="form" label-width="80px" size="small">
-                <el-form-item label="分类名称">
-                    <el-input v-model="formData.catetoryName"></el-input>
+                <el-form-item label="部门名称">
+                    <el-input v-model="formData.deptName"></el-input>
                 </el-form-item>
-                <el-form-item label="分类等级">
-                    <template>
-                        <el-radio-group v-model="categoryLevel"
-                        @change="chooseLever">
-                            <!--双向绑定 categoryLevel -->
-                        <el-radio :label="1">一级分类</el-radio>
-                        <el-radio :label="2">二级分类</el-radio>
-                        <el-radio :label="3">三级分类</el-radio>
-                        </el-radio-group>
-                    </template>
+                <el-form-item label="上级id">
+                    <el-input v-model="formData.parentId"></el-input>
                 </el-form-item>
-                <!--/* categoryLevel != 1 的时候展示出来 等于一的时候不展示框 */-->
-                <el-form-item label="分类选择" v-if="categoryLevel!=1">
-                    <el-cascader
-                            v-model="selectIds"
-                            :props="prop"
-                            placeholder="请选择父级分类"
-                            :options="options"
-                            @change="handleChange">
-                    </el-cascader>
+                <el-form-item label="部门排序">
+                  <el-input v-model="formData.deptSort"></el-input>
                 </el-form-item>
-
+                <el-form-item label="部门描述">
+                    <el-input v-model="formData.deptDesc"></el-input>
+                </el-form-item>
 
             </el-form>
 
@@ -153,9 +143,9 @@
 </template>
 
 <script>
-    import category from './index.js'
+    import brand from './index.js'
 
-    export default category;
+    export default brand;
 </script>
 
-<style src="./index.scss" lang="scss"></style>
+<style  src="./index.scss" lang="scss"></style>

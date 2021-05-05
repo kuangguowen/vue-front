@@ -53,3 +53,17 @@ export function findAll() {
     return instance.get(`role/findAll`)
 }
 
+/**
+ * 给角色赋予权限
+ */
+export function getRoleByMenu(roleId , menuIds){
+    return instance.put(`role/${roleId}/menu`,menuIds)
+}
+
+/**
+ * 通过角色id获取角色的权限
+ */
+export function getMenuByRoleMenu(id){
+    return instance.get(`role/${id}/treeMenu`)
+}
+

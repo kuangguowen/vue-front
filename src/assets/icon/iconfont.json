@@ -1,0 +1,359 @@
+{
+  "id": "2509333",
+  "name": "crm-boot",
+  "font_family": "iconfont",
+  "css_prefix_text": "class-zz",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "21042704",
+      "name": "mine,profile,me",
+      "font_class": "C_huaban1",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "21042705",
+      "name": "delete",
+      "font_class": "C-05",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "21042706",
+      "name": "share",
+      "font_class": "C-04",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
+      "icon_id": "21042707",
+      "name": "collect",
+      "font_class": "C-02",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
+      "icon_id": "21042708",
+      "name": "comment",
+      "font_class": "C-09",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "21042709",
+      "name": "edit,post",
+      "font_class": "C-08",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    },
+    {
+      "icon_id": "21042710",
+      "name": "photo",
+      "font_class": "C-13",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "21042711",
+      "name": "alarm clock",
+      "font_class": "C-16",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "21042712",
+      "name": "post,send",
+      "font_class": "C-10",
+      "unicode": "e630",
+      "unicode_decimal": 58928
+    },
+    {
+      "icon_id": "21042713",
+      "name": "back",
+      "font_class": "C-03",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "21042714",
+      "name": "microphone",
+      "font_class": "C-11",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
+      "icon_id": "21042715",
+      "name": "like",
+      "font_class": "C-07",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "21042716",
+      "name": "search",
+      "font_class": "C-21",
+      "unicode": "e634",
+      "unicode_decimal": 58932
+    },
+    {
+      "icon_id": "21042717",
+      "name": "history",
+      "font_class": "C-15",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
+      "icon_id": "21042718",
+      "name": "edit",
+      "font_class": "C-22",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
+      "icon_id": "21042719",
+      "name": "camera",
+      "font_class": "C-12",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
+      "icon_id": "21042720",
+      "name": "setting",
+      "font_class": "C-14",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "21042721",
+      "name": "look,eye",
+      "font_class": "C-06",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "21042722",
+      "name": "me,people",
+      "font_class": "C-25",
+      "unicode": "e63a",
+      "unicode_decimal": 58938
+    },
+    {
+      "icon_id": "21042723",
+      "name": "password",
+      "font_class": "C-26",
+      "unicode": "e63b",
+      "unicode_decimal": 58939
+    },
+    {
+      "icon_id": "21042724",
+      "name": "customer service",
+      "font_class": "C-24",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
+      "icon_id": "21042725",
+      "name": "hot",
+      "font_class": "C-23",
+      "unicode": "e63d",
+      "unicode_decimal": 58941
+    },
+    {
+      "icon_id": "21042726",
+      "name": "bookmark",
+      "font_class": "C-17",
+      "unicode": "e63e",
+      "unicode_decimal": 58942
+    },
+    {
+      "icon_id": "21042727",
+      "name": "classify",
+      "font_class": "C-20",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "21042728",
+      "name": "voice",
+      "font_class": "C-18",
+      "unicode": "e640",
+      "unicode_decimal": 58944
+    },
+    {
+      "icon_id": "21042729",
+      "name": "cart",
+      "font_class": "C-19",
+      "unicode": "e641",
+      "unicode_decimal": 58945
+    },
+    {
+      "icon_id": "21042730",
+      "name": "follow",
+      "font_class": "C-27",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
+      "icon_id": "21109326",
+      "name": "小区托幼中心",
+      "font_class": "tubiaozhizuomoban-01",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "21109433",
+      "name": "蔬菜实操培训",
+      "font_class": "tubiaozhizuomoban",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "21109501",
+      "name": "原才料处理规范",
+      "font_class": "tubiaozhizuomoban-011",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "21109628",
+      "name": "煲汤制作培训",
+      "font_class": "tubiaozhizuomoban1",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "21110655",
+      "name": "电器培训-01",
+      "font_class": "dianqipeixun-01",
+      "unicode": "e643",
+      "unicode_decimal": 58947
+    },
+    {
+      "icon_id": "21110656",
+      "name": "教玩玩具-01",
+      "font_class": "jiaowanwanju-01",
+      "unicode": "e644",
+      "unicode_decimal": 58948
+    },
+    {
+      "icon_id": "21110657",
+      "name": "小区维修中心-01",
+      "font_class": "xiaoquweixiuzhongxin-01",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
+      "icon_id": "21110658",
+      "name": "团购服务中心-01",
+      "font_class": "tuangoufuwuzhongxin-01",
+      "unicode": "e646",
+      "unicode_decimal": 58950
+    },
+    {
+      "icon_id": "21110659",
+      "name": "家居管理-01",
+      "font_class": "jiajuguanli-01",
+      "unicode": "e647",
+      "unicode_decimal": 58951
+    },
+    {
+      "icon_id": "21110660",
+      "name": "社区缴费-01",
+      "font_class": "shequjiaofei-01",
+      "unicode": "e648",
+      "unicode_decimal": 58952
+    },
+    {
+      "icon_id": "21110661",
+      "name": "社区食堂-01",
+      "font_class": "shequshitang-01",
+      "unicode": "e649",
+      "unicode_decimal": 58953
+    },
+    {
+      "icon_id": "21111340",
+      "name": "钢琴老师-01",
+      "font_class": "gangqinlaoshi-01",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
+    },
+    {
+      "icon_id": "21111341",
+      "name": "婚前培训-01",
+      "font_class": "hunqianpeixun-01",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    },
+    {
+      "icon_id": "21111344",
+      "name": "体育康复老师-01",
+      "font_class": "tiyukangfulaoshi-01",
+      "unicode": "e64c",
+      "unicode_decimal": 58956
+    },
+    {
+      "icon_id": "21111345",
+      "name": "家长培训-01",
+      "font_class": "jiachangpeixun-01",
+      "unicode": "e64d",
+      "unicode_decimal": 58957
+    },
+    {
+      "icon_id": "21111346",
+      "name": "体育场馆-01",
+      "font_class": "tiyuchangguan-01",
+      "unicode": "e64e",
+      "unicode_decimal": 58958
+    },
+    {
+      "icon_id": "21111805",
+      "name": "家教-01",
+      "font_class": "jiajiao-01",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    },
+    {
+      "icon_id": "21111806",
+      "name": "家政保洁-01",
+      "font_class": "jiazhengbaojie-01",
+      "unicode": "e650",
+      "unicode_decimal": 58960
+    },
+    {
+      "icon_id": "21111807",
+      "name": "保育员-01",
+      "font_class": "baoyuyuan-01",
+      "unicode": "e651",
+      "unicode_decimal": 58961
+    },
+    {
+      "icon_id": "21111808",
+      "name": "月嫂-01",
+      "font_class": "yuesao-01",
+      "unicode": "e652",
+      "unicode_decimal": 58962
+    },
+    {
+      "icon_id": "21111811",
+      "name": "钟点工-01",
+      "font_class": "zhongdiangong-01",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    },
+    {
+      "icon_id": "21111812",
+      "name": "中考辅导-01",
+      "font_class": "zhongkaofudao-01",
+      "unicode": "e654",
+      "unicode_decimal": 58964
+    },
+    {
+      "icon_id": "21111813",
+      "name": "选择学校",
+      "font_class": "xuanzexuexiao-01",
+      "unicode": "e655",
+      "unicode_decimal": 58965
+    }
+  ]
+}

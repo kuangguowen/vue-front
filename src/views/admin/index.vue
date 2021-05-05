@@ -31,12 +31,7 @@
                             align="left">
                     </el-date-picker>
                 </el-form-item>
-                <!--        <el-form-item label="活动区域">-->
-                <!--          <el-select  placeholder="活动区域">-->
-                <!--            <el-option label="区域一" value="shanghai"></el-option>-->
-                <!--            <el-option label="区域二" value="beijing"></el-option>-->
-                <!--          </el-select>-->
-                <!--        </el-form-item>-->
+
                 <el-form-item>
                     <el-button type="primary" @click="searchPage">查询</el-button>
                     <el-button type="warning" @click="resetForm">重置</el-button>
@@ -45,15 +40,17 @@
         </div>
         <!--    操作功能 -->
         <div class="crud-box">
-            <el-button type="primary" size="mini" icon="el-icon-edit"
-                       @click="dialogVisible=true, resetFormData()">新建
+            <el-button type="primary" v-has-prem="['admin:add']" size="mini" icon="el-icon-success"
+                       @click="dialogVisible=true, resetFormData(),Restreset()">新建
             </el-button>
-            <el-button type="success" size="mini" icon="el-icon-edit" :disabled="batchIds.length!=1"
-                       @click="dialogVisible=true,findById()">修改
+            <el-button type="success" size="mini" v-has-prem="['admin:edit']" icon="el-icon-edit" :disabled="batchIds.length!=1"
+                       @click="dialogVisible=true,findById(),Restreset()">修改
             </el-button>
-            <el-button type="danger" size="mini" icon="el-icon-delete" :disabled="batchIds.length<=0"
-                       @click="showBatchDeleteDialog">删除
+            <el-button type="danger" size="mini" v-has-prem="['admin:batch']" icon="el-icon-delete" :disabled="batchIds.length<=0"
+                       @click="showBatchDeleteDialog">批量删除
             </el-button>
+
+        <el-link :underline="false" v-has-prem="['admin:export']" :href="exportURL"  class="el-button el-button--warning el-button--mini" type="success" icon="el-icon-download" >导出</el-link>
         </div>
         <!--    表格数据-->
         <div class="data-box">
@@ -135,8 +132,8 @@
                         align="center"
                         prop="adminAvatar"
                         label="员工头像">
-                    <template v-slot="tot">
-                        <el-avatar :size="30" :src="tot.row.adminAvatar"></el-avatar>
+                    <template v-slot="obj">
+                        <el-avatar :size="30" :src="obj.row.adminAvatar"></el-avatar>
                     </template>
                 </el-table-column>
 
@@ -166,8 +163,8 @@
                         align="center"
                         label="操作">
                     <template v-slot="obj">
-                        <el-button type="primary" size="mini" icon="el-icon-edit"
-                                   @click="dialogVisible=true,formData.id=obj.row.id,findById()"
+                        <el-button type="primary" v-has-prem="['admin:edit']" size="mini" icon="el-icon-edit"
+                                   @click="dialogVisible=true,formData.id=obj.row.id,findById(),Restreset()"
                                    style="margin-right:5px ">
                         </el-button>
                         <el-popconfirm
@@ -178,6 +175,7 @@
                                 @confirm="deleteById"
                                 placement="top"
                                 title="是否要删除本条记录？"
+                                v-has-prem="['admin:delete']"
                         >
                             <el-button slot="reference" type="danger" size="mini" @click="formData.id=obj.row.id"
                                        icon="el-icon-delete"></el-button>
@@ -209,17 +207,17 @@
                 title="实体操作"
                 :visible.sync="dialogVisible"
                 width="37%">
-            <el-form ref="form" label-width="80px" size="small">
+            <el-form ref="form" label-width="80px" size="small" :model="formData" :rules="rules">
                 <el-row :gutter="20">
                     <el-col :span="12">
-                        <el-form-item label="员工姓名">
+                        <el-form-item label="员工姓名" prop="adminName">
                             <el-input v-model="formData.adminName"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
 
 
-                        <el-form-item label="员工昵称">
+                        <el-form-item label="员工昵称" prop="nickName">
                             <el-input v-model="formData.nickName"></el-input>
                         </el-form-item>
                     </el-col>
@@ -227,12 +225,12 @@
                 </el-row>
                 <el-row :gutter="20">
                     <el-col :span="12">
-                        <el-form-item label="员工邮箱">
+                        <el-form-item label="员工邮箱" prop="adminEmail">
                             <el-input v-model="formData.adminEmail"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="员工手机">
+                        <el-form-item label="员工手机" prop="adminPhone">
                             <el-input v-model="formData.adminPhone"></el-input>
                         </el-form-item>
                     </el-col>
@@ -324,7 +322,7 @@
                 <el-row :gutter="20">
                     <el-col :span="24">
                         <el-col :span="10"></el-col>
-                        <el-form-item label="详细地址">
+                        <el-form-item label="详细地址" prop="adminAddress">
                             <el-input type="textarea" v-model="formData.adminAddress"/>
                         </el-form-item>
                     </el-col>
@@ -333,12 +331,12 @@
 
                 <el-row :gutter="20">
                     <el-col :span="8">
-                        <el-form-item label="员工头像">
+                        <el-form-item label="员工头像" >
                             <el-upload
                                     class="upload-demo"
-                                    action="http://localhost:8989/common/upload"
                                     :show-file-list="false"
-                                    @on-success="uploadSuccess">
+                                    :on-success="uploadSuccess"
+                                    action="http://localhost:8989/common/upload">
                                 <el-button size="small" type="primary">点击上传</el-button>
                             </el-upload>
                         </el-form-item>
@@ -352,8 +350,8 @@
 
             </el-form>
             <span slot="footer" class="dialog-footer">
-        <el-button size="mini" @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" @click="dialogVisible = false,addOrEdit()">确 定</el-button>
+        <el-button  size="mini" @click="dialogVisible = false,Restreset()">取 消</el-button>
+        <el-button type="primary" size="mini" @click="addOrEdit()"  >确 定</el-button>
   </span>
         </el-dialog>
     </div>

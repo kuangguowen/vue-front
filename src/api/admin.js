@@ -31,9 +31,6 @@ let admin = {
 
     },
 
-    // getAreaChildrenById(id) {
-    //     return instance.get(`city/province/${id}`);
-    // },
 
 
     /**
@@ -74,36 +71,12 @@ let admin = {
 
     batchDelete(ids) {
         return instance.delete(`admin/batch/${ids}`)
-    }
+    },
+
+
 
 
 };
 
-
 export default admin;
 
-
-//
-
-
-//
-// /**
-//  * 添加功能
-//  */
-// export function addEntity(entity) {
-//     return instance.post(`brand`, entity);
-// }
-//
-// /**
-//  * 通过id查询
-//  */
-// export function findById(id) {
-//     return instance.get(`brand/${id}`)
-// }
-//
-// /**
-//  修改
-//  */
-// export function updataEdit(entity) {
-//     return instance.put(`brand`, entity);
-// }

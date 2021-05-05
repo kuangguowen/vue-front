@@ -4,14 +4,15 @@ import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
 let brand = {
-    components: {Treeselect},
     name: "index",
+    // 注册组件
+    components: {Treeselect},
     data() {
         return {
             dateOptions,
             tableData: [],
             total: 0,
-            //分页
+            // 分页
             searchParams: {
                 currentPage: 1,
                 pageSize: 5
@@ -23,14 +24,17 @@ let brand = {
             dialogVisible: false,
             // 表单数据对象
             formData: {},
-
             normalizer(node) {
+                if (node.children == null || node.children == 'null') {
+                    delete node.children;
+                }
                 return {
                     id: node.id,
-                    label: node.menutitle,
+                    label: node.menuTitle,
                     children: node.children,
                 }
             },
+
 
         }
     },
@@ -39,9 +43,10 @@ let brand = {
         this.getAllMenuTree();
     },
     methods: {
-        /*
-        * 查询所有
-        */
+
+        /**
+         * 查询所有
+         */
         async searchPage() {
             let response = await menu.searchPage(this.searchParams);
             this.total = response.total;
@@ -53,15 +58,23 @@ let brand = {
          *    从 obj 中拿取id (id=obj.row.id)
          */
         async deleteById() {
-            await deleteById(this.formData.id);
+            await menu.deleteById(this.formData.id);
             this.searchPage();
         },
 
         /**
          * 获取所有的菜单 tree
          */
-      async  getAllMenuTree(){
-        this.menuList =  await menu.getAllMenuTree();
+        async getAllMenuTree() {
+            this.menuList = await menu.getAllMenuTree();
+            let response;
+            // eslint-disable-next-line no-unused-vars
+            let root = {
+                id: 0,
+                menuTitle: "主目录",
+                // eslint-disable-next-line no-undef
+                children: response,
+            };
 
         },
 
@@ -72,32 +85,17 @@ let brand = {
         async addOrEdit() {
             if (this.formData.id) {
                 //修改操作
-                await  this.updataEdit()
-
+                await menu.updateEntity(this.formData)
             } else {
                 // 没id进行添加操作
-                await  this.addEntity()
-
+                await menu.addEntity(this.formData)
             }
+            // 刷新页面
             this.searchPage();
+            this.getAllMenuTree();
 
         },
 
-
-        /**
-         * 添加方法
-         */
-        async addEntity() {
-            await addEntity(this.formData);
-        },
-
-
-        /**
-         * 修改方法
-         */
-        async updataEdit() {
-            await updataEdit(this.formData);
-        },
 
         /**
          * 初始化页面
@@ -106,37 +104,17 @@ let brand = {
             this.formData = {
                 // 给默认值 默认选中目录
                 menuType: 0,
-                isHidden:false,
+                isHidden: false,
             }
         },
 
-
-        /**checkbox勾选改变
-         * @param val
-         */
-        selectChange(val) {
-            // 如果勾选的id长度为1 则把第一个id赋值给formData.id
-            if (val.length == 1) {
-                this.formData.id = val[0].id
-            } else {
-                // 清空id 将id设置为0
-                this.formData.id = 0;
-            }
-
-            this.batchIds = val.map(item => item.id);
-        },
 
         /**
          * 通过id进行查询
-         * @param page
-         *
          */
         async findById() {
             //把通过id查询到的 内容 赋值给 fromData
-            this.formData = await findById(this.formData.id);
-            // 回显img图片 通过id查询到的所有数据都在 formData 里面 把formData中的brandLogo 赋值给 this.imgUrl即可
-            this.imageUrl = this.formData.brandLogo;
-
+            this.formData = await menu.findById(this.formData.id);
         },
 
 
@@ -153,20 +131,6 @@ let brand = {
         resetForm() {
             this.searchParams = {currentPage: 1, pageSize: 5};
             this.dateOptions.startDate = '';
-        },
-
-        /**
-         * 展示批量删除的弹框
-         */
-        showBatchDeleteDialog() {
-            this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                //点击按钮后执行方法
-                this.batchDeleteByIds();
-            })
         },
 
 

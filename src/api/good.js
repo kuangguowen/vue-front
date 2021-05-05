@@ -6,7 +6,8 @@ import instance from "@/utils/request";
  */
 export function findPage(searchParams) {
 
-    return instance.get(`category`,{params: searchParams})
+
+    return instance.get(`good`, {params: searchParams})
 }
 
 /**
@@ -14,7 +15,7 @@ export function findPage(searchParams) {
  */
 
 export function deleteById(id) {
-    return instance.delete(`category/${id}`)
+    return instance.delete(`good/${id}`)
 }
 
 /**
@@ -22,36 +23,26 @@ export function deleteById(id) {
  */
 
 export function batchDelete(ids) {
-    return instance.delete(`category/batch/${ids}`)
+    return instance.delete(`good/batch/${ids}`)
 }
 
 /**
  * 添加功能
  */
 export function addEntity(entity) {
-    return instance.post(`category`, entity);
+    return instance.post(`good`, entity);
 }
 
 /**
  * 通过id查询
  */
 export function findById(id) {
-    return instance.get(`category/${id}`)
+    return instance.get(`good/${id}`)
 }
 
 /**
  修改
  */
 export function updataEdit(entity) {
-    return instance.put(`category`, entity);
+    return instance.put(`good`,entity);
 }
-
-/**
- * 查询select中的数据
- * */
-export function getSelectData() {
-    return instance.get(`category/selectTree`);
-}
-
-
-

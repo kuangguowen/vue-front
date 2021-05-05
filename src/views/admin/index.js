@@ -5,7 +5,7 @@ import base64 from '@/utils/base64Utils'
 // 引入树形搜索框
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-
+import baseURL from "../../utils/baseURL";
 
 let brand = {
     name: "index",
@@ -23,7 +23,7 @@ let brand = {
             },
             //部门数据
             deptList: [],
-
+            exportURL: baseURL.baseURL + "admin/export",
             normalizer(node) {
                 if (node.children == null || node.children == 'null') {
                     delete node.children;
@@ -56,10 +56,32 @@ let brand = {
             // 区的数据
             areaList: [],
             // 员工列表数据
-            roleList:[],
-
-
-
+            roleList: [],
+            //前端校验
+            rules: {
+                adminName: [
+                    {required: true, message: '请输入员工姓名', trigger: 'blur'},
+                ],
+                nickName: [
+                    {required: true, message: '请输入员工昵称', trigger: 'blur'},
+                ],
+                adminPhone: [
+                    {required: true, message: '请输入手机号', trigger: 'blur'},
+                    {
+                        pattern: /^[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}$/,
+                        message: '请输入正确的手机号',
+                        trigger: 'blur'
+                    },
+                ],
+                adminEmail: [
+                    {required: true, message: '请输入员工邮箱', trigger: 'blur'},
+                    {type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur'}
+                ],
+                adminAddress: [
+                    {required: true, message: '请输入详细地址', trigger: 'blur'},
+                ],
+            },
+            resetFields: [],
 
         }
     },
@@ -137,7 +159,7 @@ let brand = {
         /**
          * 加载所有的角色
          */
-       async getAllRole(){
+        async getAllRole() {
             this.roleList = await findAll();
         },
 
@@ -146,8 +168,13 @@ let brand = {
          * 文件上传
          */
         uploadSuccess(response) {
+            let {status, message, data} = response;
+            if (status == 20000) {
+                this.formData.adminAvatar = data;
+            } else {
+                this.$notify.error(message)
+            }
 
-            this.formData.adminAvatar = response.data;
         },
 
         /**
@@ -159,8 +186,13 @@ let brand = {
                 gender: 0,
                 isEnable: false,
                 adminAddress: '',
-                roleIds:[],
+                roleIds: [],
             }
+            this.province = ""
+            //市
+            this.city = ""
+            //区
+            this.area = ""
         },
 
 
@@ -186,20 +218,44 @@ let brand = {
          * 添加或修改方法
          */
         async addOrEdit() {
-            this.formData.adminAddress = this.province + " " + this.city + " " + this.area + " " + this.formData.adminAddress;
+            //在添加和修改之前进行表单验证
+            this.$refs.form.validate(async (valid) => {
+                if (valid) {
+                    //成功后关闭弹窗
+                    this.dialogVisible = false
+                    this.formData.adminAddress = this.province + " " + this.city + " " + this.area + " " + this.formData.adminAddress;
+                    if (this.formData.id) {
+                        //修改操作
+                        await admin.updataEdit(this.formData);
+                    } else {
+                        //添加操作
+                        await admin.addEntity(this.formData);
+                        this.$notify({
+                            title: '添加成功',
+                            message: '',
+                            type: 'success'
+                        });
+                    }
+                    this.searchPage();
+                    this.Restreset()
+                } else {
+                    this.$notify.error({
+                        title: '表单验证不成功',
+                        message: ''
+                    });
+                    return false;
+                }
+            });
 
+        },
+        /**
+         * 表单验证后清空
+         */
 
-            if (this.formData.id) {
-                //修改操作
-                await admin.updataEdit(this.formData);
-
-            } else {
-                // 没id进行添加操作
-                await admin.addEntity(this.formData);
-
+        Restreset() {
+            if (this.$refs.form !== undefined) {
+                this.$refs.form.resetFields();
             }
-            this.searchPage();
-
         },
 
 
@@ -220,13 +276,10 @@ let brand = {
 
         /**
          * 通过id进行查询
-         * @param page
-         *
          */
         async findById() {
             //把通过id查询到的 内容 赋值给 fromData
             this.formData = await admin.findById(this.formData.id);
-
             let array = this.formData.adminAddress.split(" ");
             this.province = array[0];
             // 拿到省的id 获取市区
@@ -239,7 +292,6 @@ let brand = {
                 address += array[i] + " "
             }
             this.formData.adminAddress = address;
-
         },
 
 
